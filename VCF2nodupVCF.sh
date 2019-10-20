@@ -1,10 +1,12 @@
 #!/bin/bash
 #$ -pwd
 
-#bash VCF2nodupVCF.sh /share/projects/genodata/cohortA/post_imputation/info_filter/
+# Developer: Lawrence M. Chen
+# Example: ./VCF2nodupVCF.sh /share/projects/genodata/cohortA/post_imputation/info_filter/
+
 ########### SCRIPT INFO ###########
 
-VERSION=1.1
+VERSION=1.2
 USAGE="
 $(basename "$0") is a program to remove duplicated SNP IDs from VCF files.
 \n\n
@@ -111,8 +113,9 @@ echo "log_file = ${LOG}" | tee -a $LOG
 for f in ${VCFS}/*.vcf; do
   
   let JID=(JID+1)
+  pbs=$(readlink -f "${OUTPATH}")/pbs_jobs/VCF2nodupVCF_${JID}.pbs
   
-  cat > ${OUTPATH}/pbs_jobs/VCF2nodupVCF_${JID}.bash << EOT # write VCF2nodupVCF.sh job information for each job
+  cat > $pbs << EOT # write VCF2nodupVCF.sh job information for each job
 #!/bin/bash
 #PBS -q batch
 #PBS -N VCF_nodup_$JID
@@ -133,7 +136,6 @@ sort | uniq -cd | awk -v OFS='\t' '{print \$2,\$1}' > $(readlink -f "${OUTPATH}"
 awk -F' ' 'FNR==NR{a[\$1];next} !(\$3 in a)' $(readlink -f "${OUTPATH}")/$(basename "${f%.*}")_dup.list $f > $(readlink -f "${OUTPATH}")/$(basename "${f%.*}")_nodup.vcf
 
 EOT
-  chmod 754 $(readlink -f "${OUTPATH}")/pbs_jobs/VCF2nodupVCF_${JID}.bash
-  qsub $(readlink -f "${OUTPATH}")/pbs_jobs/VCF2nodupVCF_${JID}.bash
+  chmod 754 $pbs
+  qsub $pbs
 done
-
