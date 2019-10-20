@@ -17,7 +17,7 @@ OUT_FILE=$3                      # file_name_of_final_output_without_extension
 for f in ${VCFS}/*.vcf; do
   filename=$(basename "$f")
   filestem="${filename%%.*}"
-  echo "Converting $filname to $filestem.gen..."
+  echo "Converting $filename to $filestem.gen..."
   grep -v "#" $f | awk -F'\t' '{$6=$7=$8=$9=""; t=$2; $2=$3; $3=t; print $0}' | sed -r 's/ *[[:digit:]]+\|[[:digit:]]+\:[[:digit:]]+\.?[[:digit:]]*,[[:digit:]]+\.?[[:digit:]]*:[[:digit:]]+\.?[[:digit:]]*:/ /g' | sed 's/\,/ /g' > ${OUT_DIR}/$filestem.gen
 done
 
