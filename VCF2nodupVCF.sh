@@ -113,9 +113,9 @@ echo "log_file = ${LOG}" | tee -a $LOG
 for f in ${VCFS}/*.vcf; do
   
   let JID=(JID+1)
-  pbs=$(readlink -f "${OUTPATH}")/pbs_jobs/VCF2nodupVCF_${JID}.pbs
+  PBS=$(readlink -f "${OUTPATH}")/pbs_jobs/VCF2nodupVCF_${JID}.pbs
   
-  cat > $pbs << EOT # write VCF2nodupVCF.sh job information for each job
+  cat > $PBS << EOT # write VCF2nodupVCF.sh job information for each job
 #!/bin/bash
 #PBS -q batch
 #PBS -N VCF_nodup_$JID
@@ -136,6 +136,6 @@ sort | uniq -cd | awk -v OFS='\t' '{print \$2,\$1}' > $(readlink -f "${OUTPATH}"
 awk -F' ' 'FNR==NR{a[\$1];next} !(\$3 in a)' $(readlink -f "${OUTPATH}")/$(basename "${f%.*}")_dup.list $f > $(readlink -f "${OUTPATH}")/$(basename "${f%.*}")_nodup.vcf
 
 EOT
-  chmod 754 $pbs
-  qsub $pbs
+  chmod 754 $PBS
+  qsub $PBS
 done
