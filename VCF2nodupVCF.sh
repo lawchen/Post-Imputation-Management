@@ -14,7 +14,7 @@ Usage: ./$(basename "$0") <path_to_folder_with_vcfs> [-o output_path] [-l log_fi
 \n
 where:
 \n\t    -o  \t set output path -- if path does not exist it, it will be created automatically (default is local folder)
-\n\t    -l  \t set log file name (default is $(basename "${0%.*}")_$(date +%y%m%d).log)
+\n\t    -l  \t set log file name (default is $(basename "${0%.*}")_$(date +%Y%m%d).log)
 \n\t    -v  \t show the version of this script
 \n\t    -h  \t show this help text
 \n\n
@@ -32,7 +32,7 @@ if [ $# == 0 ] ; then
 fi
 
 OUTPATH=. # default output path if "-o" argument is not specified
-LOG=$(basename ${0%.*})_$(date +%y%m%d).log # default log file name if "-l" argument is not specified
+LOG=$(basename ${0%.*})_$(date +%Y%m%d).log # default log file name if "-l" argument is not specified
 
 while [ $# -gt 0 ] && [ "$1" != "--" ]; do
   while getopts ":o:l:vh" optname
