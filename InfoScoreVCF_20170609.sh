@@ -1,8 +1,10 @@
 #!/bin/bash
 #$ -pwd
 
-#version/date: 20170609
-#example: ./InfoScoreVCF.sh /share/projects/genodata/cohortA/sanger_imputation/cohortA.vcfs/ /share/projects/genodata/cohortA/post_imputation/info_filter/ cohortA_20170627 0.8
+# Developer: Lawrence M. Chen
+# Version/date: 20170609
+# Example: ./InfoScoreVCF_20170609.sh /share/projects/genodata/cohortA/sanger_imputation/cohortA.vcfs/ /share/projects/genodata/cohortA/post_imputation/info_filter/ cohortA_20170627 0.8
+
 USAGE="$(basename "$0") is a program to filter out genetic variants in the human autosomes that fail to meet the INFO score criterion from VCF files.
 \n
 Access to Portable Batch System (PBS) job scheduler and bcftools is required to run this program.
