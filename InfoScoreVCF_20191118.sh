@@ -2,8 +2,8 @@
 #$ -pwd
 
 # Developer: Lawrence M. Chen
-# Version/date: 20191019
-# Example: ./InfoScoreVCF_20191019.sh /share/projects/genodata/cohortA/sanger_imputation/cohortA.vcfs/ /share/projects/genodata/cohortA/post_imputation/info_filter/ cohortA_20170627 0.8
+# Version/date: 20191118
+# Example: ./InfoScoreVCF_20191118.sh /share/projects/NEURON/STEP4-POST_IMPUTATION/NEURONimpute20Jun2017.vcfs/ /share/projects/NEURON/STEP4-POST_IMPUTATION/STEP1_INFO08/STEP1_INFO08_27Jun17/ NEURON_170627 0.8
 
 USAGE="$(basename "$0") is a program to filter out genetic variants in the human autosomes that fail to meet the INFO score criterion from VCF files.
 \n
@@ -119,11 +119,4 @@ EOT
 
 fi
 
-bcftools --version | tee -a ${OUT_DIR}/${DAT}_$(basename "${0%.*}")_$(date +%y%m%d).log
-smallestVCF=$(ls -rS ${VCFS}/*.vcf$(if [ -a ${VCFS}/1.vcf.gz ]; then echo .gz ; fi) | head -1 )
-bcftools convert --tag GP --gensample ${OUT_DIR}/$DAT $smallestVCF | tee -a ${OUT_DIR}/${DAT}_$(basename "${0%.*}")_$(date +%y%m%d).log
-
-echo "${DAT}.samples and ${DAT}.gen.gz have been generated." | tee -a ${OUT_DIR}/${DAT}_$(basename "${0%.*}")_$(date +%y%m%d).log
-echo "${DAT}.samples will be used as the SAMPLE file for this project's imputed genotype data in GEN/SAMPLE format." | tee -a ${OUT_DIR}/${DAT}_$(basename "${0%.*}")_$(date +%y%m%d).log
-echo "${DAT}.gen.gz will not be kept because the we found conversion errors using bcftools 1.3.1 to make the GEN file." | tee -a ${OUT_DIR}/${DAT}_$(basename "${0%.*}")_$(date +%y%m%d).log
-rm ${OUT_DIR}/${DAT}.gen.gz
+echo "Wait for the PBS jobs to be complete before moving to the next step."
